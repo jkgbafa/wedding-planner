@@ -4,7 +4,19 @@ Live site: https://jkgbafa.github.io/wedding-planner/
 
 A standalone React + TypeScript + Vite app. Opens directly with no login, account, popup, platform SDK, or external storage connection. Source code, initial checklist, build configuration and an optional portable backend are included here.
 
-## GitHub Pages: editing without a login
+## Google Drive sync (recommended)
+
+With sync turned on, the planner is saved to a file in Joshua's Google Drive, so every device and everyone with the link sees the same list. Nobody needs to log in to the site.
+
+1. Go to https://script.google.com and click **New project**.
+2. Delete what's in the editor, paste in everything from `google-drive/Code.gs` and save.
+3. Click **Deploy → New deployment**, choose the type **Web app**, set **Execute as: Me** and **Who has access: Anyone**, then click **Deploy** and allow access.
+4. Copy the **Web app URL** (it ends in `/exec`).
+5. In this repository go to **Settings → Secrets and variables → Actions → Variables**, add a variable named `SYNC_URL` with that URL, then re-run the **Deploy wedding planner** workflow.
+
+The first time the site loads after that, it copies the planner saved in that browser into Drive, so open it first in the browser you've been editing in. The data lives in `Wedding planner data.json` in your Drive; Drive keeps earlier versions under **Manage versions**. Anyone who has the site link can view and edit. Uploaded source files stay in the browser that added them.
+
+## GitHub Pages without sync
 
 Edits and uploaded files are saved in IndexedDB in the current browser. They survive reloads but are **not automatically shared with other devices or other people**. A new browser starts with the published checklist. Clearing site data or private browsing can remove local changes.
 
@@ -43,6 +55,8 @@ The backend uses validation, atomic file replacement and revision checks to prev
 - `src/app/dashboard.tsx`: main dashboard and item editor
 - `src/app/personal-dashboard.tsx`: personal payments and tasks
 - `src/lib/local-store.ts`: browser persistence
+- `src/lib/drive-store.ts` and `google-drive/Code.gs`: Google Drive sync
+- `src/lib/migrations.ts`: one-time corrections applied to saved planners
 - `src/lib/api.ts`: local or optional same-origin server adapter
 - `src/lib/initial-board.json`: starting data
 - `server.mjs`: optional shared backend
