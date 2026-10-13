@@ -10,7 +10,7 @@ Edits and uploaded files are saved in IndexedDB in the current browser. They sur
 
 Use **Download backup** to export your current list. Use **Restore backup** to move it to another device. Restore downloads a backup of the previous list before replacement. Original uploads are stored locally and can be downloaded individually under Import & reconcile.
 
-The starting snapshot contains 103 items exported from the prior planner on 9 October 2026. It is public as requested. Raw chat archives and personal source media are not included.
+The starting snapshot contains 81 items: the 103 exported from the prior planner on 9 October 2026, with the 13 October corrections in `src/lib/migrations.ts` applied. Those corrections are also applied once to planners already saved in a browser or on the server. It is public as requested. Raw chat archives and personal source media are not included.
 
 ## Develop or move to another host
 
