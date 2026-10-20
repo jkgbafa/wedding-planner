@@ -39,6 +39,41 @@ export const migrations:Migration[]=[
   const added=rows.filter(([id])=>!ids.has(id)).map(([id,title,category,extra])=>({...base,id,title,category,...extra}));
   return {...board,items:[...added,...board.items]};
  }},
+ {id:'2026-10-20-joshua-assignments',apply:board=>{
+  // [owner, status, who/what is handling it (added to the title), extra fields]
+  const updates:Record<string,[string,string,string?,Record<string,unknown>?]>={
+   'item-070':['Joshua','Done','Joana'],
+   'item-068':['Joshua','Done','Abigail Dormekpor & Naa Korklu'],
+   'item-071':['Joshua','Done','Joseph'],
+   'item-069':['Joshua','Done','Darius'],
+   'item-072':['Joshua','Done','Joanna'],
+   'item-065':['Joshua','Done'],
+   'item-078':['Lucia','Done'],
+   'item-079':['Lucia','Done','Tisha'],
+   'item-064':['Lucia','Done','Joseph Oware'],
+   'item-055':['Lucia','Done'],
+   'item-053':['Joshua','Done','Ps Eben & Richie'],
+   'item-054':['Joshua','Done','Darius'],
+   'item-095':['Lucia','Done'],
+   'item-097':['Lucia','Done'],
+   'item-059':['Lucia','Done'],
+   'item-047':['Joshua','Pending','Bishop Prince’s car'],
+   'item-052':['Joshua','Done'],
+   'item-048':['Joshua','Pending',undefined,{notes:'20 Oct: not sure yet who is driving the bridesmaids.'}],
+   'item-049':['Joshua','Done'],
+   'item-050':['Joshua','Pending','Emmanuel'],
+   'item-051':['Joshua','Done'],
+   'item-075':['Joshua','Pending',undefined,{due:'2026-10-22',notes:'Confirm on Wednesday or Thursday (21–22 Oct).'}],
+   'item-076':['Joshua','Pending',undefined,{due:'2026-10-22',notes:'Confirm on Wednesday or Thursday (21–22 Oct).'}],
+   'item-074':['Joshua','Pending',undefined,{due:'2026-10-22',notes:'Confirm on Wednesday or Thursday (21–22 Oct).'}],
+   'item-062':['Lucia','Pending'],
+   'item-096':['Lucia','Pending'],
+   'item-061':['Joshua','Pending'],
+  };
+  const items=board.items.map(i=>{const u=updates[i.id];if(!u)return i;const [owner,status,who,extra]=u;
+   return {...i,...extra,owner,status,title:who&&!i.title.includes(who)?i.title+' · '+who:i.title,review:false}});
+  return {...board,items};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{

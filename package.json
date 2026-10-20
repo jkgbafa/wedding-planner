@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node tests/local-store.mjs",
+    "test": "node tests/local-store.mjs && node tests/drive-store.mjs",
     "start": "node --experimental-strip-types server.mjs",
     "build:server": "VITE_BASE=/ VITE_STORAGE_MODE=server npm run build"
   },
