@@ -32,5 +32,9 @@ try {
  assert.equal(m.board.items[0].title,'Wedding cake payment');assert.equal(m.board.items.length,20);
  assert.deepEqual(m.board.items.slice(16).map(i=>i.id+':'+i.owner+':'+i.title),['item-003:Joshua:Reception food · Sister Doris','item-030:Joshua:Stickers','item-056:Joshua & Lucia:Joint','mine:Joshua:My new task']);
  assert.equal(applyMigrations(m.board,m.migrations).changed,false);
+ // 20 Oct: assignments and completions land on an already-saved board without duplicating names.
+ const saved20=applyMigrations({items:[{id:'item-070',title:'Assign ushers and protocol lead',owner:'',status:'Not started'},{id:'item-075',title:'Confirm church booking and decor rules',owner:'',status:'Pending',due:''}]},['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities']);
+ assert.deepEqual(saved20.board.items.map(i=>[i.title,i.owner,i.status]),[['Assign ushers and protocol lead · Joana','Joshua','Done'],['Confirm church booking and decor rules','Joshua','Pending']]);
+ assert.equal(saved20.board.items[1].due,'2026-10-22');
  console.log('PASS: initial data, migrations, persisted edits, version conflicts, validation, uploaded file roundtrip');
 } finally {rmSync(tmp,{recursive:true,force:true})}
