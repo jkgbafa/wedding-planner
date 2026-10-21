@@ -13,7 +13,7 @@ try {
  writeFileSync(tmp+'/store.mjs',ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
  const {localRequest:request}=await import(tmp+'/store.mjs');
  const start=await (await request('/api/board')).json();
- assert.equal(start.board.items.length,97);assert.equal(start.board.items[0].title,'Wedding cake payment');
+ assert.equal(start.board.items.length,98);assert.equal(start.board.items[0].title,'Wedding cake payment');
  const board=structuredClone(start.board);board.items[0].title='Persistence verification';
  const put=(b,v)=>request('/api/board',{method:'PUT',body:JSON.stringify({board:b,version:v})});
  assert.equal((await put(board,start.version)).status,200);
@@ -29,12 +29,15 @@ try {
  const {applyMigrations}=await import(tmp+'/migrations.mjs');
  const old={items:[{id:'item-003',title:'Reception food · Capitol',owner:'Joshua'},{id:'item-024',title:'x',owner:'Joshua'},{id:'item-030',title:'Stickers',owner:'Lucia'},{id:'item-090',title:'Fans',owner:'Lucia'},{id:'item-056',title:'Joint',owner:'Joshua & Lucia'},{id:'mine',title:'My new task',owner:'Joshua'}]};
  const m=applyMigrations(old,[]);
- assert.equal(m.board.items[0].title,'Wedding cake payment');assert.equal(m.board.items.length,20);
- assert.deepEqual(m.board.items.slice(16).map(i=>i.id+':'+i.owner+':'+i.title),['item-003:Joshua:Reception food · Sister Doris','item-030:Joshua:Stickers','item-056:Joshua & Lucia:Joint','mine:Joshua:My new task']);
+ assert.equal(m.board.items[0].title,'Wedding cake payment');assert.equal(m.board.items.length,21);assert.equal(m.board.items[20].title,'Reception drinks');
+ assert.deepEqual(m.board.items.slice(16,20).map(i=>i.id+':'+i.owner+':'+i.title),['item-003:Joshua:Reception food · Sister Doris','item-030:Joshua:Stickers','item-056:Joshua & Lucia:Joint','mine:Joshua:My new task']);
  assert.equal(applyMigrations(m.board,m.migrations).changed,false);
  // 20 Oct: assignments and completions land on an already-saved board without duplicating names.
  const saved20=applyMigrations({items:[{id:'item-070',title:'Assign ushers and protocol lead',owner:'',status:'Not started'},{id:'item-075',title:'Confirm church booking and decor rules',owner:'',status:'Pending',due:''}]},['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities']);
- assert.deepEqual(saved20.board.items.map(i=>[i.title,i.owner,i.status]),[['Assign ushers and protocol lead · Joana','Joshua','Done'],['Confirm church booking and decor rules','Joshua','Pending']]);
+ assert.deepEqual(saved20.board.items.slice(0,2).map(i=>[i.title,i.owner,i.status]),[['Assign ushers and protocol lead · Joana','Joshua','Done'],['Confirm church booking and decor rules','Joshua','Pending']]);
  assert.equal(saved20.board.items[1].due,'2026-10-22');
+ // 21 Oct: engagement vs reception drinks, cake priced; running twice adds nothing.
+ const d=applyMigrations({items:[{id:'top-01',title:'Wedding cake payment',owner:'Joshua',estimate:null,currency:'GHS'},{id:'item-016',title:'Drinks',owner:'Joshua'}]},['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities','2026-10-20-joshua-assignments']);
+ assert.deepEqual(d.board.items.map(i=>i.title+':'+(i.estimate??'')+(i.currency??'')),['Wedding cake payment:200USD','Engagement drinks:','Reception drinks:150USD']);
  console.log('PASS: initial data, migrations, persisted edits, version conflicts, validation, uploaded file roundtrip');
 } finally {rmSync(tmp,{recursive:true,force:true})}
