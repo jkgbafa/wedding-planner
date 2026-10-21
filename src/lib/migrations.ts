@@ -83,6 +83,7 @@ export const migrations:Migration[]=[
   return {...board,items};
  }},
  {id:'2026-10-21-kaftan-price',apply:board=>({...board,items:board.items.map(i=>i.id==='item-018'&&i.estimate===150?{...i,estimate:200,notes:'Price updated to $200 (21 Oct).'}:i)})},
+ {id:'2026-10-21-bride-price-envelopes',apply:board=>({...board,items:board.items.map(i=>i.id==='item-005'&&i.payment==='Paid'?{...i,status:'Pending',payment:'Unpaid',paid:0,review:false,evidence:'Reported by Joshua',notes:'The GH₵2,650 set aside for the envelopes went into the reception food (21 Oct), so it has to be found again.'}:i)})},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
