@@ -82,6 +82,7 @@ export const migrations:Migration[]=[
   if(!items.some(i=>i.id==='item-016b'))items.splice(items.findIndex(i=>i.id==='item-016')+1||items.length,0,{id:'item-016b',title:'Reception drinks',category:'Food & drinks',owner:'Joshua',status:'Pending',kind:'Expense',currency:'USD',estimate:150,paid:null,payment:'Unpaid',evidence:'Reported by Joshua',notes:'Maybe about $150 (21 Oct). Separate from the engagement drinks.',source:'Joshua · 21 Oct 2026',event:'Wedding',due:'',review:true});
   return {...board,items};
  }},
+ {id:'2026-10-21-kaftan-price',apply:board=>({...board,items:board.items.map(i=>i.id==='item-018'&&i.estimate===150?{...i,estimate:200,notes:'Price updated to $200 (21 Oct).'}:i)})},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
