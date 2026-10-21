@@ -84,6 +84,11 @@ export const migrations:Migration[]=[
  }},
  {id:'2026-10-21-kaftan-price',apply:board=>({...board,items:board.items.map(i=>i.id==='item-018'&&i.estimate===150?{...i,estimate:200,notes:'Price updated to $200 (21 Oct).'}:i)})},
  {id:'2026-10-21-bride-price-envelopes',apply:board=>({...board,items:board.items.map(i=>i.id==='item-005'&&i.payment==='Paid'?{...i,status:'Pending',payment:'Unpaid',paid:0,review:false,evidence:'Reported by Joshua',notes:'The GH₵2,650 set aside for the envelopes went into the reception food (21 Oct), so it has to be found again.'}:i)})},
+ {id:'2026-10-21-shoes-and-shirt',apply:board=>{
+  const items=board.items.map(i=>i.id==='item-019'&&i.estimate==null?{...i,currency:'USD',estimate:40,notes:'About $40 (21 Oct).'}:i);
+  if(!items.some(i=>i.id==='item-019b'))items.splice(items.findIndex(i=>i.id==='item-019')+1||items.length,0,{id:'item-019b',title:'Groom’s wedding shirt',category:'Attire & beauty',owner:'Joshua',status:'Pending',kind:'Expense',currency:'USD',estimate:30,paid:null,payment:'Unpaid',evidence:'Reported by Joshua',notes:'About $30 (21 Oct).',source:'Joshua · 21 Oct 2026',event:'Wedding',due:'',review:false});
+  return {...board,items};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
