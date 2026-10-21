@@ -94,6 +94,13 @@ export const migrations:Migration[]=[
   const ids=new Set(['item-019','item-019b','item-016','top-01','item-005']);
   return {...board,items:board.items.map(i=>ids.has(i.id)&&!i.title.startsWith('‼️')?{...i,title:'‼️ '+i.title}:i)};
  }},
+ {id:'2026-10-21-engagement-list-breakdowns',apply:board=>{
+  // From Lucia's family engagement list. Lines starting with • show under the item in the planner.
+  const drinks=['Drinks on Lucia’s family engagement list:','• Wine: 7 bottles (knocking 1, head rum 2, dowry 2, father 1, mother 1)','• Malt: 3 cartons (head rum 1, dowry 2)','• Mineral: 1 carton + 2 crates (head rum 1 carton, dowry 2 crates)'].join('\n');
+  const cash=['Cash on Lucia’s family engagement list (adds up to GH₵2,650):','• Knocking fee: GH₵200','• Acceptance: GH₵100','• Head rum (tsir nsa): GH₵500','• Father: GH₵500','• Mother: GH₵500','• Brothers-in-law: GH₵500','• Family: GH₵250','• Thank you: GH₵100','The bride price itself (any amount) is the separate Bride-price cash item.'].join('\n');
+  const add=(notes:unknown,text:string)=>String(notes||'').includes(text.split('\n')[0])?String(notes||''):text+(notes?'\n\n'+notes:'');
+  return {...board,items:board.items.map(i=>i.id==='item-016'?{...i,notes:add(i.notes,drinks)}:i.id==='item-005'?{...i,notes:add(i.notes,cash)}:i)};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
