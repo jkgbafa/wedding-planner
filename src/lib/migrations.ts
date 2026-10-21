@@ -89,6 +89,7 @@ export const migrations:Migration[]=[
   if(!items.some(i=>i.id==='item-019b'))items.splice(items.findIndex(i=>i.id==='item-019')+1||items.length,0,{id:'item-019b',title:'Groom’s wedding shirt',category:'Attire & beauty',owner:'Joshua',status:'Pending',kind:'Expense',currency:'USD',estimate:30,paid:null,payment:'Unpaid',evidence:'Reported by Joshua',notes:'About $30 (21 Oct).',source:'Joshua · 21 Oct 2026',event:'Wedding',due:'',review:false});
   return {...board,items};
  }},
+ {id:'2026-10-21-cake-in-cedis',apply:board=>({...board,items:board.items.map(i=>i.id==='top-01'&&i.currency==='USD'&&i.estimate===200?{...i,currency:'GHS',estimate:2500,review:true,notes:'GH₵2,500 (21 Oct), not $200. Check against the older Cake item recorded as GH₵2,500 paid: if that was never paid, archive one of the two.'}:i)})},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{

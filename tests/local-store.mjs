@@ -38,6 +38,6 @@ try {
  assert.equal(saved20.board.items[1].due,'2026-10-22');
  // 21 Oct: engagement vs reception drinks, cake priced; running twice adds nothing.
  const d=applyMigrations({items:[{id:'top-01',title:'Wedding cake payment',owner:'Joshua',estimate:null,currency:'GHS'},{id:'item-016',title:'Drinks',owner:'Joshua'}]},['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities','2026-10-20-joshua-assignments']);
- assert.deepEqual(d.board.items.slice(0,3).map(i=>i.title+':'+(i.estimate??'')+(i.currency??'')),['Wedding cake payment:200USD','Engagement drinks:','Reception drinks:150USD']);
+ assert.deepEqual(d.board.items.slice(0,3).map(i=>i.title+':'+(i.estimate??'')+(i.currency??'')),['Wedding cake payment:2500GHS','Engagement drinks:','Reception drinks:150USD']);
  console.log('PASS: initial data, migrations, persisted edits, version conflicts, validation, uploaded file roundtrip');
 } finally {rmSync(tmp,{recursive:true,force:true})}
