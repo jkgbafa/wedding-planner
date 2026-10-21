@@ -15,7 +15,7 @@
       "due": "",
       "review": true,
       "id": "top-01",
-      "title": "Wedding cake payment",
+      "title": "‼️ Wedding cake payment",
       "category": "Food & drinks"
     },
     {
@@ -362,7 +362,7 @@
     },
     {
       "id": "item-005",
-      "title": "Bride-price envelopes",
+      "title": "‼️ Bride-price envelopes",
       "category": "Tradition & gifts",
       "owner": "Joshua",
       "status": "Pending",
@@ -560,7 +560,7 @@
     },
     {
       "id": "item-016",
-      "title": "Engagement drinks",
+      "title": "‼️ Engagement drinks",
       "category": "Food & drinks",
       "owner": "Joshua",
       "status": "Pending",
@@ -632,7 +632,7 @@
     },
     {
       "id": "item-019",
-      "title": "Groom’s shoes",
+      "title": "‼️ Groom’s shoes",
       "category": "Attire & beauty",
       "owner": "Joshua",
       "status": "Pending",
@@ -650,7 +650,7 @@
     },
     {
       "id": "item-019b",
-      "title": "Groom’s wedding shirt",
+      "title": "‼️ Groom’s wedding shirt",
       "category": "Attire & beauty",
       "owner": "Joshua",
       "status": "Pending",

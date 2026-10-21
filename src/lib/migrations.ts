@@ -90,6 +90,10 @@ export const migrations:Migration[]=[
   return {...board,items};
  }},
  {id:'2026-10-21-cake-in-cedis',apply:board=>({...board,items:board.items.map(i=>i.id==='top-01'&&i.currency==='USD'&&i.estimate===200?{...i,currency:'GHS',estimate:2500,review:true,notes:'GH₵2,500 (21 Oct), not $200. Check against the older Cake item recorded as GH₵2,500 paid: if that was never paid, archive one of the two.'}:i)})},
+ {id:'2026-10-21-priority-payments',apply:board=>{
+  const ids=new Set(['item-019','item-019b','item-016','top-01','item-005']);
+  return {...board,items:board.items.map(i=>ids.has(i.id)&&!i.title.startsWith('‼️')?{...i,title:'‼️ '+i.title}:i)};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
