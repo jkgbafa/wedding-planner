@@ -8,3 +8,10 @@ export function totals(items:Item[],currency:'GHS'|'USD') {const all=items.filte
 export const money=(n:number|null,c='GHS')=>n===null?'Not recorded':(c==='GHS'?'GH₵ ':'$')+n.toLocaleString('en-US',{maximumFractionDigits:2});
 
 export function assignedTo(item:Item,name:string){return item.owner.split(/\s*(?:&|,|\/|\band\b)\s*/i).some(owner=>owner.trim().toLowerCase()===name.trim().toLowerCase());}
+
+// Items whose title starts with ‼️ are priority payments, totalled on their own tab.
+export const PRIORITY='‼️';
+export const isPriority=(i:Item)=>i.title.startsWith(PRIORITY);
+// Rate from the 23 Sep Sendwave transfer (GH₵14,921 = $1,289.62); only used to show an approximate dollar total.
+export const GHS_PER_USD=11.57;
+export const leftToPay=(i:Item)=>i.kind!=='Expense'||i.payment==='Paid'||i.payment==='Unallocated'?0:Math.max(0,(i.estimate??0)-(i.paid??0));

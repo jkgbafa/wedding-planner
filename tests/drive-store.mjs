@@ -33,7 +33,7 @@ try {
  assert.equal((await localRequest('/api/board',{method:'PUT',body:JSON.stringify(local)})).status,200);
  const first=await(await req('/api/board')).json();
  assert.equal(first.board.items[0].title,'Entered before syncing');assert.equal(first.version,1);
- assert.deepEqual(first.migrations,['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities','2026-10-20-joshua-assignments','2026-10-21-drinks-and-cake','2026-10-21-kaftan-price','2026-10-21-bride-price-envelopes','2026-10-21-shoes-and-shirt','2026-10-21-cake-in-cedis']);
+ assert.deepEqual(first.migrations,['2026-10-13-joshua-corrections','2026-10-13-joshua-priorities','2026-10-20-joshua-assignments','2026-10-21-drinks-and-cake','2026-10-21-kaftan-price','2026-10-21-bride-price-envelopes','2026-10-21-shoes-and-shirt','2026-10-21-cake-in-cedis','2026-10-21-priority-payments']);
 
  // Saved edits come back on the next load (another device reads the same file).
  const b=structuredClone(first.board);b.items[1].status='Done';
@@ -49,7 +49,7 @@ try {
  // A board saved in Drive before a migration existed gets it once.
  const old=JSON.parse(files.f1);old.migrations=['2026-10-13-joshua-corrections'];old.board.items=old.board.items.filter(i=>!i.id.startsWith('top-'));files.f1=JSON.stringify(old);
  const migrated=await(await req('/api/board')).json();
- assert.equal(migrated.board.items[0].title,'Wedding cake payment');assert.equal(migrated.version,3);
+ assert.equal(migrated.board.items[0].title,'‼️ Wedding cake payment');assert.equal(migrated.version,3);
  assert.equal((await(await req('/api/board')).json()).version,3);
 
  // Offline: a clear error, nothing written.
