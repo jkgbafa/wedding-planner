@@ -74,6 +74,14 @@ export const migrations:Migration[]=[
    return {...i,...extra,owner,status,title:who&&!i.title.includes(who)?i.title+' · '+who:i.title,review:false}});
   return {...board,items};
  }},
+ {id:'2026-10-21-drinks-and-cake',apply:board=>{
+  const items=board.items.map(i=>
+   i.id==='item-016'&&i.title==='Drinks'?{...i,title:'Engagement drinks',event:'Engagement'}:
+   i.id==='item-003'&&i.payment!=='Paid'?{...i,payment:'Paid',paid:i.estimate,review:false,evidence:'Reported by Joshua',notes:'Completely paid off (confirmed by Joshua, 21 Oct). Amount assumed to be the GH₵17,000 budget.'}:
+   i.id==='top-01'&&i.estimate==null?{...i,currency:'USD',estimate:200,event:'Wedding',notes:'About $200 (21 Oct).'}:i);
+  if(!items.some(i=>i.id==='item-016b'))items.splice(items.findIndex(i=>i.id==='item-016')+1||items.length,0,{id:'item-016b',title:'Reception drinks',category:'Food & drinks',owner:'Joshua',status:'Pending',kind:'Expense',currency:'USD',estimate:150,paid:null,payment:'Unpaid',evidence:'Reported by Joshua',notes:'Maybe about $150 (21 Oct). Separate from the engagement drinks.',source:'Joshua · 21 Oct 2026',event:'Wedding',due:'',review:true});
+  return {...board,items};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
