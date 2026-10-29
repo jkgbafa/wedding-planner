@@ -101,6 +101,13 @@ export const migrations:Migration[]=[
   const add=(notes:unknown,text:string)=>String(notes||'').includes(text.split('\n')[0])?String(notes||''):text+(notes?'\n\n'+notes:'');
   return {...board,items:board.items.map(i=>i.id==='item-016'?{...i,notes:add(i.notes,drinks)}:i.id==='item-005'?{...i,notes:add(i.notes,cash)}:i)};
  }},
+ {id:'2026-10-29-ticked-payments',apply:board=>{
+  // Joshua ticked these as paid; the bride-price cash is archived (kept under Archived items, out of every total).
+  const paid=new Set(['top-01','item-018','item-019','item-019b']);
+  return {...board,items:board.items.map(i=>
+   paid.has(i.id)&&i.payment!=='Paid'?{...i,status:'Done',payment:'Paid',paid:i.estimate,evidence:'Ticked by Joshua',notes:'Paid (ticked by Joshua, 29 Oct).'+(i.notes?'\n\n'+i.notes:'')}:
+   i.id==='item-015'?{...i,archived:true,notes:'Taken off the list by Joshua (29 Oct).'+(i.notes?'\n\n'+i.notes:'')}:i)};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
