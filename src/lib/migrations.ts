@@ -109,6 +109,12 @@ export const migrations:Migration[]=[
    i.id==='item-015'?{...i,archived:true,notes:'Taken off the list by Joshua (29 Oct).'+(i.notes?'\n\n'+i.notes:'')}:i)};
  }},
  {id:'2026-10-29-decor-priority',apply:board=>({...board,items:board.items.map(i=>i.id==='item-001'&&!i.title.startsWith('‼️')?{...i,title:'‼️ '+i.title}:i)})},
+ {id:'2026-10-29-flower-bouquet',apply:board=>{
+  if(board.items.some(i=>i.id==='item-001b'))return board;
+  const items=[...board.items];
+  items.splice(items.findIndex(i=>i.id==='item-001')+1||items.length,0,{id:'item-001b',title:'‼️ Flower bouquet',category:'Decor & venues',owner:'Joshua',status:'Pending',kind:'Expense',currency:'USD',estimate:200,paid:null,payment:'Unpaid',evidence:'Reported by Joshua',notes:'About $200 (29 Oct).',source:'Joshua · 29 Oct 2026',event:'Wedding',due:'',review:false});
+  return {...board,items};
+ }},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
