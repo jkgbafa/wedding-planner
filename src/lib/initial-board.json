@@ -307,6 +307,24 @@
       "due": ""
     },
     {
+      "id": "item-001b",
+      "title": "‼️ Flower bouquet",
+      "category": "Decor & venues",
+      "owner": "Joshua",
+      "status": "Pending",
+      "kind": "Expense",
+      "currency": "USD",
+      "estimate": 200,
+      "paid": null,
+      "payment": "Unpaid",
+      "evidence": "Reported by Joshua",
+      "notes": "About $200 (29 Oct).",
+      "source": "Joshua · 29 Oct 2026",
+      "event": "Wedding",
+      "due": "",
+      "review": false
+    },
+    {
       "id": "item-002",
       "title": "Reception venue",
       "category": "Decor & venues",
