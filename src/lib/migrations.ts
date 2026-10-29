@@ -108,6 +108,7 @@ export const migrations:Migration[]=[
    paid.has(i.id)&&i.payment!=='Paid'?{...i,status:'Done',payment:'Paid',paid:i.estimate,evidence:'Ticked by Joshua',notes:'Paid (ticked by Joshua, 29 Oct).'+(i.notes?'\n\n'+i.notes:'')}:
    i.id==='item-015'?{...i,archived:true,notes:'Taken off the list by Joshua (29 Oct).'+(i.notes?'\n\n'+i.notes:'')}:i)};
  }},
+ {id:'2026-10-29-decor-priority',apply:board=>({...board,items:board.items.map(i=>i.id==='item-001'&&!i.title.startsWith('‼️')?{...i,title:'‼️ '+i.title}:i)})},
 ];
 
 export function applyMigrations<B extends MigBoard>(board:B,applied:string[]=[]):{board:B;migrations:string[];changed:boolean}{
